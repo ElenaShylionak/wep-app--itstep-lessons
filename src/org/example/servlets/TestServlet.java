@@ -23,6 +23,6 @@ public class TestServlet extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8"); //устанавливается тип ответа
         PrintWriter writer = resp.getWriter(); //объект PrintWriter, через который можно отправить какой-то определенный ответ пользователю
         writer.println( "<h2 > Hello from Servlet. Time" + new Date()+"</h2>" ); //это будет наш ответ
-        writer.println("<a href='http://localhost:8081/web-app/'> home </a>"); //и добавим ссылку
+        writer.println("<a href='http://localhost:8082/web-app/'> home </a>"); //и добавим ссылку
     }
 }
