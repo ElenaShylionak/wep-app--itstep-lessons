@@ -2,6 +2,7 @@ package org.example.rest.ws;
 
 import org.example.dao.impl.CarsDAO;
 import org.example.model.Car;
+import org.example.util.XMLCurrencyParser;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.GenericEntity;
@@ -17,17 +18,16 @@ public class CarService {
 
     private CarsDAO dao = CarsDAO.getInstance(); // ссылка на мнимую базу данных
 
-
+    //просто проверка, как отрабатывает вебсерис
     @GET  //GET задает метод, вызываемый при поступлении GET-запроса.  является обязательной.
     @Path("/is-alive")
     @Produces(MediaType.TEXT_PLAIN)
     //Produces задает тип данных отправляемых клиенту в теле отклике и не является обязательной.
-
     public String isAlive() {
         return "Server time is " + new Date();
         //проверка (при запуске wep-app/rest/cars/is-alive - будет: Server time is Fri Feb 03 12:14:18 MSK 2023 - текущее время)
     }
-
+    //Тест как работает с JSON
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response showAll() {
@@ -46,7 +46,6 @@ public class CarService {
         if (all.size() > 0) {
             GenericEntity<List<Car>> genericEntity = new GenericEntity<List<Car>>(all) {
             };
-
             return Response.ok(genericEntity).build();
         }
         return Response.noContent().build();
@@ -71,11 +70,11 @@ public class CarService {
 
     //Метод GET, который работает по какому-то параметру, например, по id
     @GET
-    @Path("{id}") //путь: wep-app/rest/cars/first
+    @Path("{id}") //путь: wep-app/rest/cars/id (1 или 2)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getById (@PathParam("id") int id) {
         Car car = dao.getById(id);
-        //проверка: если список пустой  - isEmpty, noCont(@PathParam("id") int id) ent - без содержания
+        //проверка: если car не null - покажет параметы
         if (car != null) {
             return Response.ok(car).build();
         }
@@ -83,7 +82,7 @@ public class CarService {
         //NOT_FOUND - 404 Not Found согласно документацию по HTTP
     }
 
-    //
+    //пользователь добавляет машину
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON) //Consumes - потреблять
@@ -91,6 +90,9 @@ public class CarService {
         int id = dao.add(car);
         return Response.ok(car).build();
     }
+
+    //2.25 посмотреть код
+    //обновление данных
     @PUT
     @Path("/update")
     @Consumes(MediaType.APPLICATION_JSON) //Consumes - потреблять
@@ -103,7 +105,7 @@ public class CarService {
         return Response.status(Response.Status.NOT_MODIFIED).build(); //Если не обновилось статус - 304 Not Modified
         // 304 NOT_MODIFIED - не обноилось согласно документацию по HTTP
     }
-
+    //удаление
     @DELETE
     @Path("/delete/{id}")
     public Response isDelete(@PathParam("id") int id)  {
@@ -116,5 +118,14 @@ public class CarService {
         // 304 NOT_MODIFIED - не обноилось согласно документацию по HTTP
     }
 
+    //Времменный код для курсов валют. Перенести в отельный класс
+    @GET
+    @Path("/currency/{code}")
+    public Response getCurrencyByCode(@PathParam("code") int code) { // код валюты
+        String val = XMLCurrencyParser.getCurrency(code + " ");
+        double d = Double.parseDouble(val);
+        d = d + d * 0.05;
+        return Response.ok("DELETE").build();
+    }
 
 }

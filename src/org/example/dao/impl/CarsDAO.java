@@ -13,7 +13,7 @@ public class CarsDAO {
     private static List<Car> cars = new ArrayList<>(); //создаем объект
 
     static {
-        cars.add(new Car(1,"BMW M3", 51000)); //поля инициализации
+        cars.add(new Car(1,"BMW M3", 51000)); //поля инициализации, мнинмая база данных для тестов
         cars.add(new Car(2,"AUDI RS3", 55000));
         cars.add(new Car(3,"BMW M5", 60000));
     }
@@ -38,7 +38,7 @@ public class CarsDAO {
         return newId;
     }
 
-    public Car getById(int id){
+    public Car getById(int id){ //получить по ид
         Car car = new Car(id);
         int pos = cars.indexOf(car);
         if(pos >= 0){
@@ -47,7 +47,7 @@ public class CarsDAO {
         return null;
     }
 
-    public boolean update(Car car){
+    public boolean update(Car car){ //обновить
         int pos = cars.indexOf(car);
         if(pos >= 0){
             cars.set(pos, car);
@@ -56,7 +56,7 @@ public class CarsDAO {
         return false;
     }
 
-    public boolean delete(int id){
+    public boolean delete(int id){ //удалить
         Car car = new Car(id);
         int pos = cars.indexOf(car);
         if(pos >= 0){
