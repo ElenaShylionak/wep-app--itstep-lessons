@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="wep-app" />
+        <module name="WEB2" />
       </profile>
     </annotationProcessing>
   </component>
